@@ -13,6 +13,7 @@ module Tap
     , liftIO
     ) where
 
+import Tap.Redis
 import Yesod.Core
 import Yesod.Helpers.Static
 import qualified Settings
@@ -24,13 +25,15 @@ import Control.Monad (unless)
 import Control.Monad.Trans.Class (lift)
 import Control.Monad.IO.Class (liftIO)
 import qualified Data.Text as T
+import qualified Data.Sequence as Seq
+import qualified Data.ByteString as B
 
 -- | The site argument for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data Tap = Tap
-    { getStatic :: Static -- ^ Settings for static file serving.
+    { getStatic      :: Static -- ^ Settings for static file serving.
     }
 
 -- | A useful synonym; most of the handler functions in your application

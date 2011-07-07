@@ -28,6 +28,7 @@ library
     exposed-modules: Controller
     hs-source-dirs: ., config
     other-modules:   Tap
+                     Tap.Redis
                      Settings
                      StaticFiles
                      Handler.Root
@@ -44,7 +45,6 @@ executable         Conduit
 
     main-is:       config/Conduit.hs
     hs-source-dirs: ., config
-
     build-depends: base         >= 4       && < 5
                  , yesod-core   >= 0.8     && < 0.9
                  , yesod-static
@@ -58,4 +58,10 @@ executable         Conduit
                  , wai
                  , warp
                  , blaze-builder
+                 , enumerator
+                 , redis >= 0.12
+                 , containers
+                 , stm
+                 , monadIO
+
     ghc-options:   -Wall -threaded
