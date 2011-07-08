@@ -32,7 +32,6 @@ enqMessages tv xs =
     history <- readTVar tv
     let concated = fromList xs >< history in
       writeTVar tv (take max_buffer_size concated)
-enqMessage _ _ = return ()    
 
 intoHistory :: AtomicMessageStore -> Iteratee RedisMessage IO ()
 intoHistory tvar = continue step where
