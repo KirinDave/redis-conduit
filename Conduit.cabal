@@ -47,6 +47,7 @@ executable         Conduit
     hs-source-dirs: ., config
     build-depends: base         >= 4       && < 5
                  , yesod-core   >= 0.8     && < 0.9
+                 , yesod
                  , yesod-static
                  , wai-extra
                  , directory
@@ -63,5 +64,7 @@ executable         Conduit
                  , containers
                  , stm
                  , monadIO
+                 , yesod-json
 
     ghc-options:   -Wall -threaded
+WS_ACCESS_KEY_ID

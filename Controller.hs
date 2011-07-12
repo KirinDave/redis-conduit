@@ -8,6 +8,8 @@ module Controller
     ) where
 
 import Tap
+import Tap.Redis
+import qualified Database.Redis.Redis as Redis
 import Settings
 import Yesod.Helpers.Static
 import Data.ByteString (ByteString)
@@ -16,6 +18,7 @@ import Data.Dynamic (Dynamic, toDyn)
 
 -- Import all relevant handler modules here.
 import Handler.Root
+import Handler.Display
 
 -- This line actually creates our YesodSite instance. It is the second half
 -- of the call to mkYesodData which occurs in Tap.hs. Please see
@@ -36,10 +39,15 @@ getRobotsR = return $ RepPlain $ toContent ("User-agent: *" :: ByteString)
 -- migrations handled by Yesod.
 withTap :: (Application -> IO a) -> IO a
 withTap f = do
-    let h = Tap s
+    redisC <- localRedis
+    (ams, _) <- storeChannelsInto redisC ["metrics:statman"]
+    let h = Tap s ams
     toWaiApp h >>= f
   where
     s = static Settings.staticdir
+
+localRedis :: IO Redis.Redis
+localRedis = Redis.connect "127.0.0.1" Redis.defaultPort
 
 withDevelApp :: Dynamic
 withDevelApp = toDyn (withTap :: (Application -> IO ()) -> IO ())

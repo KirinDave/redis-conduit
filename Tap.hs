@@ -33,7 +33,8 @@ import qualified Data.ByteString as B
 -- starts running, such as database connections. Every handler will have
 -- access to the data present here.
 data Tap = Tap
-    { getStatic      :: Static -- ^ Settings for static file serving.
+    { getStatic         :: Static -- ^ Settings for static file serving.
+    , getMessages       :: AtomicMessageStore
     }
 
 -- | A useful synonym; most of the handler functions in your application
@@ -95,3 +96,4 @@ instance Yesod Tap where
         exists <- liftIO $ doesFileExist fn'
         unless exists $ liftIO $ L.writeFile fn' content
         return $ Just $ Right (StaticR $ StaticRoute ["tmp", T.pack fn] [], [])
+        

@@ -16,3 +16,4 @@ getRootR = do
         h2id <- lift newIdent
         setTitle "Conduit homepage"
         addWidget $(widgetFile "homepage")
+        
